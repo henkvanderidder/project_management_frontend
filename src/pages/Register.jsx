@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { useState, useNavigate } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import api from '../axios';
 
 function Register() {
@@ -15,7 +15,7 @@ function Register() {
         setLoading(true);
         setMessage("");
 
-        console.log("Register submitted:", { name, email, password });
+        //console.log("Register submitted:", { name, email, password });
 
         try {
             const response = await api.post('/register', {
@@ -26,7 +26,7 @@ function Register() {
 
             const token = response.data.token;
             localStorage.setItem('token', token);
-            console.log("Register successful:", response.data);
+            // console.log("Register successful:", response.data);
             setMessage(response.data.message);
             navigate('/login');
 

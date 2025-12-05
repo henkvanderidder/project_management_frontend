@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios';
 
 function Login() {
@@ -7,13 +7,14 @@ function Login() {
     const[password, setPassword] = useState("");
     const[message, setMessage] = useState("");  
     const[loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setMessage("");
-
-        console.log("Login submitted:", { email, password });
+  
+        //console.log("Login submitted:", { email, password });
 
         try {
             const response = await api.post('/login', {
@@ -23,8 +24,9 @@ function Login() {
 
             const token = response.data.token;
             localStorage.setItem('token', token);
-            console.log("Login successful:", response.data);
+            //console.log("Login successful:", response.data);
             setMessage(response.data.message);
+            navigate('/dashboard');
 
         } catch (error) {
             console.error("Login failed:", error);
