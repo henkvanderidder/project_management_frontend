@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import api from '../axios';
+import { toast } from 'react-toastify';
 
 function Register() {
     const[name, setName] = useState("");
@@ -24,18 +25,24 @@ function Register() {
                 password
             });
 
-            const token = response.data.token;
-            localStorage.setItem('token', token);
+            // niet nodig bij register, zit in login
+            // const token = response.data.token;
+            // localStorage.setItem('token', token);
+
             // console.log("Register successful:", response.data);
-            setMessage(response.data.message);
+
+            //setMessage(response.data.message);
+            toast.success(response.data.message || "Registration successful!");
             navigate('/login');
 
         } catch (error) {
             console.error("Register failed:", error);
             if (error.response.data.message) {
-                setMessage(error.response.data.message);
+                //setMessage(error.response.data.message);
+                toast.error(error.response.data.message);
             } else {
-                setMessage("An error occurred during register.");
+                //setMessage("An error occurred during register.");
+                toast.error("An error occurred during register.");
             }
         } finally {
             setLoading(false);

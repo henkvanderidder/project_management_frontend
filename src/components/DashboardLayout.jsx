@@ -12,12 +12,20 @@ import {
 function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
   // Collapse sidebar by default on smaller screens
   useEffect(() => {
+
     async function fetchData() {
-    // You can await here
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        setUserName(user.name);
+      }
+      
+      // You can await here
       if (window.innerWidth < 768) {
         setSidebarOpen(false);
       }
@@ -28,6 +36,7 @@ function DashboardLayout({ children }) {
   // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   }
 
@@ -116,13 +125,16 @@ function DashboardLayout({ children }) {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-2 md:gap-3 focus:outline-none"
             >
+              {/*
               <img
                 src="https://i.pravatar.cc/40"
                 alt="User Avatar"
                 className="w-10 h-10 rounded-full border"
               />
+              */}
+              
               <span className="hidden md:flex items-center text-gray-700 font-medium gap-1">
-                Welcome, Todo
+                Welcome, {userName || "User"}
                 <FiChevronDown
                   className={`transition-transform duration-200 ${
                     dropdownOpen ? "rotate-180" : "rotate-0"

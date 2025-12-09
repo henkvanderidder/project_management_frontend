@@ -1,6 +1,6 @@
 import api from '../axios';
 import DashboardLayout from "../components/DashboardLayout";
-import { useNavigate, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import {useEffect, useState} from "react";
 
 function ProjectDetails() {

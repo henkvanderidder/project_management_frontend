@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -87,6 +88,11 @@ function Layout() {
             </ProtectedRoute>
           } />
       </Routes>
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000} 
+        hideProgressBar={true} 
+      />
     </>
   );
 
@@ -97,7 +103,7 @@ function App() {
     <>
     <Router>
       <Layout />  
-    </Router>
+     </Router>
     </>
   );
 }

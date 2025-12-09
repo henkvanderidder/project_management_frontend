@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import api from '../axios';
 
 function Login() {
@@ -24,16 +25,24 @@ function Login() {
 
             const token = response.data.token;
             localStorage.setItem('token', token);
+
+            const user = response.data.user;
+            localStorage.setItem('user', JSON.stringify(user));
+            // stringify: takes a JavaScript object as input and returns a JSON-formatted string
+
             //console.log("Login successful:", response.data);
-            setMessage(response.data.message);
+            //setMessage(response.data.message);
+            toast.success(response.data.message || "Login successful!");
             navigate('/dashboard');
 
         } catch (error) {
             console.error("Login failed:", error);
             if (error.response.data.message) {
-                setMessage(error.response.data.message);
+                //setMessage(error.response.data.message);
+                toast.error(error.response.data.message);
             } else {
-                setMessage("An error occurred during login.");
+                //setMessage("An error occurred during login.");
+                toast.error("An error occurred during login.");
             }
         } finally {
             setLoading(false);
