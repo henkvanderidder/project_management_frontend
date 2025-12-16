@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
@@ -16,18 +17,18 @@ function Home() {
         MySQL. Stay productive, stay organized, and achieve more every day.
       </p>
       <div className="space-x-4">
-        <a
-          href="/register"
+        <Link
+          to="/register"
           className="inline-block bg-white text-indigo-700 font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-100 transition transform hover:scale-105"
         >
           Get Started Free
-        </a>
-        <a
-          href="/login"
+        </Link>
+        <Link
+          to="/login"
           className="inline-block border border-white px-8 py-3 rounded-lg hover:bg-white hover:text-indigo-700 transition transform hover:scale-105"
         >
           Login
-        </a>
+        </Link>
       </div>
     </div>
     <div className="absolute bottom-0 left-0 right-0">
@@ -95,12 +96,12 @@ function Home() {
         Sign up for free and experience a smarter way to organize your tasks and
         projects.
       </p>
-      <a
-        href="/register"
+      <Link
+        to="/register"
         className="bg-white text-indigo-700 font-semibold px-10 py-4 rounded-lg shadow-lg hover:bg-gray-100 transition transform hover:scale-105"
       >
         Create an Account
-      </a>
+      </Link>
     </div>
   </section>
 
