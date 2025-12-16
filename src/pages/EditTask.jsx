@@ -1,5 +1,6 @@
 import {useState,useEffect} from "react";
 import api from '../axios';
+import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -79,13 +80,14 @@ function EditTask() {
 
         console.log("Task update response data", response.data);
         setMessage(response.data.message);
-        alert("Task updated successfully!");
-
+        //alert("Task updated successfully!");
+        toast.success(response.data.message || "Task updated successful!");
         navigate('/tasks');
         
       } catch (error) {
         console.error("Error updating task:", error);
-        alert("Failed to update task.");
+        //alert("Failed to update task.");
+        toast.error("Failed to update task.");
       } finally {
         setLoading(false);
       } 

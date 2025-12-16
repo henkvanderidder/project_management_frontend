@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import api from '../axios';
+import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -32,7 +33,7 @@ function EditProject() {
 
       } catch (error) {
         console.error("Error fetching project:", error);
-        alert("Failed to fetch project details.");
+        //alert("Failed to fetch project details.");
       }   
     }
 
@@ -60,13 +61,14 @@ function EditProject() {
 
         setMessage(response.data.message);
         console.log("Project update response data", response.data);
-        alert("Project updated successfully!");
-
+        //alert("Project updated successfully!");
+        toast.success(response.data.message || "Project updated successful!");
         navigate('/projects');
         
       } catch (error) {
         console.error("Error updating project:", error);
-        alert("Failed to update project.");
+        //alert("Failed to update project.");
+        toast.error("Failed to update project.");
       } finally {
         setLoading(false);
       } 

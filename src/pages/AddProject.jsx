@@ -1,5 +1,6 @@
 import {useState} from "react";
 import api from '../axios';
+import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 
@@ -32,13 +33,13 @@ function AddProject() {
 
         console.log("Project add response data", response.data);
         setMessage(response.data.message);
-        alert("Project added successfully!");
+        toast.success(response.data.message || "Project added successful!");
 
         navigate('/projects');
         
       } catch (error) {
         console.error("Error adding project:", error);
-        alert("Failed to add project.");
+        toast.error("Failed to add project.");
       } finally {
         setLoading(false);
       } 

@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import api from '../axios';
+import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { Link } from "react-router-dom";
 
@@ -48,13 +49,14 @@ function Tasks() {
       });  
       // Delete from local state
       setTasks(tasks.filter(task => task.id !== id)); 
-
-      alert("Task deleted successfully!");
+      //alert("Task deleted successfully!");
+      toast.success("Task deleted successfully!");
       console.log("Task deleted:", id);
 
     } catch (error) {
       console.error("Error deleting task:", error);
-      alert("Failed to delete task.");
+      //alert("Failed to delete task.");
+      toast.error("Failed to delete task.");
     }
 
   }

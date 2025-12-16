@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import api from '../axios';
+import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { Link } from "react-router-dom";
 
@@ -49,12 +50,14 @@ function Projects() {
       // Delete from local state
       setProjects(projects.filter(project => project.id !== id)); 
 
-      alert("Project deleted successfully!");
+      //alert("Project deleted successfully!");
+      toast.success("Project deleted successfully!");
       console.log("Project deleted:", id);
 
     } catch (error) {
       console.error("Error deleting project:", error);
-      alert("Failed to delete project.");
+      // alert("Failed to delete project.");
+      toast.error("Failed to delete project.");
     }
 
   }
