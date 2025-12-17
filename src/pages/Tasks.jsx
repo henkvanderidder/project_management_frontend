@@ -3,16 +3,17 @@ import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { Link } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 function Tasks() {
-
+  const {token} = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {  
-        const token = localStorage.getItem('token');
+        //const token = localStorage.getItem('token');
 
         const response = await api.get('/tasks', {
           headers : { 
@@ -31,7 +32,7 @@ function Tasks() {
 
     fetchTasks();
 
-  }, []);
+  }, [token]);
 
     const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this task?");
@@ -41,7 +42,7 @@ function Tasks() {
     }
 
     try {  
-      const token = localStorage.getItem("token");    
+      //const token = localStorage.getItem("token");    
       await api.delete(`/tasks/${id}`, {  
         headers : { 
           Authorization: `Bearer ${token}`  

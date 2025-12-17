@@ -3,8 +3,10 @@ import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 function AddTask() {
+  const {token} = useAuth();
   const [title, setTitle] = useState("");
   const [projects, setProjects] = useState([]);
   const [projectId, setProjectId] = useState("");
@@ -18,7 +20,7 @@ function AddTask() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {  
-        const token = localStorage.getItem('token');
+        //const token = localStorage.getItem('token');
 
         const response = await api.get('/projects', {
           headers : { 

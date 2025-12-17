@@ -3,15 +3,17 @@ import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { Link } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 function Projects() {
+  const {token} = useAuth();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {  
-        const token = localStorage.getItem('token');
+        //const token = localStorage.getItem('token');
 
         const response = await api.get('/projects', {
           headers : { 
@@ -41,7 +43,7 @@ function Projects() {
     }
 
     try {  
-      const token = localStorage.getItem("token");    
+      //const token = localStorage.getItem("token");    
       await api.delete(`/projects/${id}`, {  
         headers : { 
           Authorization: `Bearer ${token}`  

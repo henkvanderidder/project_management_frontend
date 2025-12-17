@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../axios';
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
     const[email, setEmail] = useState("");
@@ -9,6 +10,7 @@ function Login() {
     const[message, setMessage] = useState("");  
     const[loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const {login} = useAuth(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,11 +26,12 @@ function Login() {
             });
 
             const token = response.data.token;
-            localStorage.setItem('token', token);
+            //localStorage.setItem('token', token);
 
             const user = response.data.user;
-            localStorage.setItem('user', JSON.stringify(user));
-            // stringify: takes a JavaScript object as input and returns a JSON-formatted string
+            //localStorage.setItem('user', JSON.stringify(user));
+
+            login(token, user); // update auth context
 
             //console.log("Login successful:", response.data);
             //setMessage(response.data.message);

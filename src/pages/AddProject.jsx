@@ -3,8 +3,10 @@ import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 function AddProject() {
+  const {token} = useAuth();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -19,7 +21,7 @@ function AddProject() {
       setMessage("");
 
       try {  
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
 
         const response = await api.post("/projects", {  
           name: name,

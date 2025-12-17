@@ -8,8 +8,10 @@ import {
   FiMenu,
   FiChevronDown,
 } from "react-icons/fi";
+import { useAuth } from '../context/AuthContext';
 
 function DashboardLayout({ children }) {
+  const {token, user, logout} = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userName, setUserName] = useState("");
@@ -19,10 +21,10 @@ function DashboardLayout({ children }) {
   useEffect(() => {
 
     async function fetchData() {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const user = JSON.parse(userData);
-        setUserName(user.name);
+      //const user = localStorage.getItem("user");
+      if (user) {
+        const userData = JSON.parse(user);
+        setUserName(userData.name);
       }
       
       // You can await here
@@ -35,8 +37,9 @@ function DashboardLayout({ children }) {
 
   // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    //localStorage.removeItem("token");
+    //localStorage.removeItem("user");
+    logout();
     navigate("/login");
   }
 
@@ -134,7 +137,7 @@ function DashboardLayout({ children }) {
               */}
               
               <span className="hidden md:flex items-center text-gray-700 font-medium gap-1">
-                Welcome, {userName || "User"}
+                Welcome, {user?.name || "User"}
                 <FiChevronDown
                   className={`transition-transform duration-200 ${
                     dropdownOpen ? "rotate-180" : "rotate-0"
