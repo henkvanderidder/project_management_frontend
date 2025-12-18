@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import api from '../axios';
+//import api from '../axios';
 import { useAuth } from '../context/AuthContext';
+import { loginService } from '../services/authService';
 
 function Login() {
     const[email, setEmail] = useState("");
@@ -20,10 +21,12 @@ function Login() {
         //console.log("Login submitted:", { email, password });
 
         try {
-            const response = await api.post('/login', {
-                email,
-                password
-            });
+            //const response = await api.post('/login', {
+            //    email,
+            //    password
+            //});
+
+            const response = await loginService({ email, password });
 
             const token = response.data.token;
             //localStorage.setItem('token', token);

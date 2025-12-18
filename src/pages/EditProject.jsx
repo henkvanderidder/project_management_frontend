@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { getProject, editProject } from '../services/projectService';
 
 function EditProject() {
   const {token} = useAuth();
@@ -20,6 +21,7 @@ function EditProject() {
  useEffect(() => {
     const fetchProject = async () => {
       try {  
+        /*
         //const token = localStorage.getItem("token");    
         const response = await api.get(`/projects/${id}`, {  
           headers : { 
@@ -27,11 +29,14 @@ function EditProject() {
            },
          });  
         const project = response.data;
-
-        setName(project.name);
-        setDescription(project.description);
-        setDueDate(project.due_date); 
+        */
+        const response = await getProject(token,id);
+        //console.log("Fetched 2 project data", response);
+        setName(response.data.name);
+        setDescription(response.data.description);
+        setDueDate(response.data.due_date); 
         //setDueDate(project.dueDate.split('T')[0]); // format date for input field
+        //console.log("setted name", response.data.name);
 
       } catch (error) {
         console.error("Error fetching project:", error);
@@ -41,7 +46,7 @@ function EditProject() {
 
     fetchProject();
 
-  }, [id]);
+  }, [id,token]);
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -51,6 +56,7 @@ function EditProject() {
       try {  
         // const token = localStorage.getItem("token");
 
+        /*
         const response = await api.put(`/projects/${id}`, {  
           name: name,
           description: description,
@@ -60,7 +66,8 @@ function EditProject() {
             Authorization: `Bearer ${token}`
            },
          });
-
+        */
+        const response = await editProject(token, id, { name, description, dueDate });
         setMessage(response.data.message);
         console.log("Project update response data", response.data);
         //alert("Project updated successfully!");

@@ -1,9 +1,11 @@
 import {useState,useEffect} from "react";
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { addTask } from '../services/taskService';
+import { getProjects } from '../services/projectService';
 
 function AddTask() {
   const {token} = useAuth();
@@ -22,11 +24,7 @@ function AddTask() {
       try {  
         //const token = localStorage.getItem('token');
 
-        const response = await api.get('/projects', {
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });
+        const response = await getProjects(token);
         console.log("Projects fetched:", response.data);
         setProjects(response.data);
         
@@ -39,7 +37,7 @@ function AddTask() {
 
     fetchProjects();
 
-  }, []);
+  }, [token]);
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -47,18 +45,12 @@ function AddTask() {
       setMessage("");
 
       try {  
-        const token = localStorage.getItem("token");
-
-        const response = await api.post("/tasks", {  
-          project_id: projectId,
+        const response = await addTask(token, {
+          projectId: projectId,
           title: title,
           description: description,
-          due_date : dueDate
-        }, {
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });
+          dueDate : dueDate
+        });
 
         console.log("Task add response data", response.data);
         setMessage(response.data.message);

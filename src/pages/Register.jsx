@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
+import { registerService } from '../services/authService';
 
 function Register() {
     const[name, setName] = useState("");
@@ -19,12 +20,13 @@ function Register() {
         //console.log("Register submitted:", { name, email, password });
 
         try {
-            const response = await api.post('/register', {
-                name,
-                email,
-                password
-            });
+            //const response = await api.post('/register', {
+            //  name,
+            //  email,
+            //  password
+            //});
 
+            const response = await registerService({ name, email, password });
             // niet nodig bij register, zit in login
             // const token = response.data.token;
             // localStorage.setItem('token', token);

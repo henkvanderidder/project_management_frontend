@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { getTasks, deleteTask } from '../services/taskService';
 
 function Tasks() {
   const {token} = useAuth();
@@ -15,11 +16,7 @@ function Tasks() {
       try {  
         //const token = localStorage.getItem('token');
 
-        const response = await api.get('/tasks', {
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });
+        const response = await getTasks(token);
         console.log("Tasks fetched:", response.data);
         setTasks(response.data);
         
@@ -42,12 +39,9 @@ function Tasks() {
     }
 
     try {  
-      //const token = localStorage.getItem("token");    
-      await api.delete(`/tasks/${id}`, {  
-        headers : { 
-          Authorization: `Bearer ${token}`  
-        },
-      });  
+      //const token = localStorage.getItem("token");  
+
+      await deleteTask(token, id);
       // Delete from local state
       setTasks(tasks.filter(task => task.id !== id)); 
       //alert("Task deleted successfully!");

@@ -1,9 +1,10 @@
 import {useState} from "react";
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { addProject } from '../services/projectService';
 
 function AddProject() {
   const {token} = useAuth();
@@ -22,7 +23,7 @@ function AddProject() {
 
       try {  
         // const token = localStorage.getItem("token");
-
+        /*
         const response = await api.post("/projects", {  
           name: name,
           description: description,
@@ -32,6 +33,12 @@ function AddProject() {
             Authorization: `Bearer ${token}`
            },
          });
+         */
+        const response = await addProject(token, {
+          name: name,
+          description: description,
+          dueDate : dueDate
+        });
 
         console.log("Project add response data", response.data);
         setMessage(response.data.message);

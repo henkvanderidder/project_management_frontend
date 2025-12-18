@@ -11,10 +11,10 @@ import {
 import { useAuth } from '../context/AuthContext';
 
 function DashboardLayout({ children }) {
-  const {token, user, logout} = useAuth();
+  const {user, logout} = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [userName, setUserName] = useState("");
+  //const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
   // Collapse sidebar by default on smaller screens
@@ -22,10 +22,10 @@ function DashboardLayout({ children }) {
 
     async function fetchData() {
       //const user = localStorage.getItem("user");
-      if (user) {
-        const userData = JSON.parse(user);
-        setUserName(userData.name);
-      }
+      //if (user) {
+      //  const userData = JSON.parse(user);
+      //  setUserName(userData.name);
+      //}
       
       // You can await here
       if (window.innerWidth < 768) {
@@ -33,7 +33,7 @@ function DashboardLayout({ children }) {
       }
     }
     fetchData();
-  }, []);
+  }, [user]);
 
   // Handle logout
   const handleLogout = () => {

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect} from 'react';
+import { logoutService } from '../services/authService';
 
 // 1. Create the context 
 const AuthContext = createContext();
@@ -33,9 +34,13 @@ export function AuthProvider({ children }) {
     setUser(user);
   }
 
-  const logout = () => {
-    setToken(null);
-    setUser(null);
+  const logout = async () => {
+    const response = await logoutService(token);
+    // console.log("Logout response:", response.data);
+    if (response) {
+      setToken(null);
+      setUser(null);
+    }
   }
 
   return (

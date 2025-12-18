@@ -1,9 +1,11 @@
 import {useState,useEffect} from "react";
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { editTask, getTask } from '../services/taskService';
+import { getProjects } from '../services/projectService';
 
 function EditTask() {
   const {token} = useAuth();
@@ -26,20 +28,12 @@ function EditTask() {
         //const token = localStorage.getItem('token');
 
         // fetach all projects
-        const projectResponse = await api.get('/projects', {
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });
+        const projectResponse = await getProjects(token);
         //console.log("Projects fetched:", projectResponse.data);
         setProjects(projectResponse.data);
         
         // fetch task details
-        const taskResponse = await api.get(`/tasks/${id}`, {  
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });  
+        const taskResponse = await getTask(token, id);
         
         const task = taskResponse.data;
         
@@ -58,7 +52,7 @@ function EditTask() {
 
     fetchTaskAndProjects();
 
-  }, [id]);
+  }, [id,token]);
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -68,17 +62,13 @@ function EditTask() {
       try {  
         //const token = localStorage.getItem("token");
 
-        const response = await api.put(`/tasks/${id}`, {  
-          project_id: projectId,
+        const response = await editTask(token, id,{
+          projectId: projectId,
           title: title,
           description: description,
-          due_date : dueDate,
+          dueDate : dueDate,
           status: status
-        }, {
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });
+        });
 
         console.log("Task update response data", response.data);
         setMessage(response.data.message);

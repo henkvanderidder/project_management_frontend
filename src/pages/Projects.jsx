@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
-import api from '../axios';
+//import api from '../axios';
 import { toast } from 'react-toastify';
 import DashboardLayout from "../components/DashboardLayout";
 import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { getProjects, deleteProject } from '../services/projectService';
 
 function Projects() {
   const {token} = useAuth();
@@ -12,15 +13,17 @@ function Projects() {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      
       try {  
         //const token = localStorage.getItem('token');
 
-        const response = await api.get('/projects', {
-          headers : { 
-            Authorization: `Bearer ${token}`
-           },
-         });
-        console.log("Projects fetched:", response.data);
+        //const response = await api.get('/projects', {
+        //  headers : { 
+        //    Authorization: `Bearer ${token}`
+        //   },
+        // });
+        const response = await getProjects(token);
+        //console.log("Projects fetched:", response.data);
         setProjects(response.data);
         
       } catch (error) {
@@ -28,11 +31,15 @@ function Projects() {
       } finally {
         setLoading(false);
       } 
+      
+      const response = await getProjects(token);
+      setLoading(false);
+      setProjects(response.data)
     };
 
     fetchProjects();
 
-  }, []);
+  }, [token]);
 
   // Handle project deletion
   const handleDelete = async (id) => {
@@ -42,13 +49,11 @@ function Projects() {
       return;
     }
 
+    
     try {  
-      //const token = localStorage.getItem("token");    
-      await api.delete(`/projects/${id}`, {  
-        headers : { 
-          Authorization: `Bearer ${token}`  
-        },
-      });  
+      //const token = localStorage.getItem("token");  
+      await deleteProject(token, id);  
+
       // Delete from local state
       setProjects(projects.filter(project => project.id !== id)); 
 

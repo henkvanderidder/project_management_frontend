@@ -1,8 +1,9 @@
-import api from '../axios';
+//import api from '../axios';
 import DashboardLayout from "../components/DashboardLayout";
 import {useParams } from "react-router-dom";
 import {useEffect, useState} from "react";
 import { useAuth } from '../context/AuthContext';
+import { getProject } from '../services/projectService';
 
 function ProjectDetails() {
   const {id} = useParams();
@@ -13,11 +14,14 @@ function ProjectDetails() {
     const fetchProject = async () => {
       try {  
         //const token = localStorage.getItem("token");    
+        /*
         const response = await api.get(`/projects/${id}`, {  
           headers : { 
             Authorization: `Bearer ${token}`
            },
         });  
+        */
+        const response = await getProject(token, id);
 
         console.log("Project details loaded:", response.data);
         setProjectDetails(response.data);
